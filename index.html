@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>比特币定投收益演示</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <h1 class="title">比特币定投收益</h1>
+    <p class="subtitle">数据范围 2024-11-15 至 2025-11-15，定投金额可自定义</p>
+  </header>
+  <section class="controls">
+    <div class="card">
+      <div class="control-row">
+        <label class="label" for="amount">每次定投金额 (USD)</label>
+        <input id="amount" type="number" min="1" step="1" value="100" class="input" />
+      </div>
+      <div class="tabs">
+        <button class="tab active" data-mode="monthly">每月固定日</button>
+        <button class="tab" data-mode="ahr">按 AHR999 阈值</button>
+      </div>
+      <div id="monthly-controls" class="mode-controls">
+        <div class="control-row">
+          <label class="label" for="dom">每月日期 (1-31)</label>
+          <input id="dom" type="range" min="1" max="31" value="1" class="range" />
+          <div class="range-value"><span id="dom-value">1</span> 日</div>
+        </div>
+        <div class="hint">若当月无该日期，则使用当月最后一天</div>
+      </div>
+      <div id="ahr-controls" class="mode-controls hidden">
+        <div class="control-row">
+          <label class="label" for="ahr-threshold">AHR999 阈值</label>
+          <select id="ahr-threshold" class="select">
+            <option value="0.5">0.5</option>
+            <option value="0.6">0.6</option>
+            <option value="0.7">0.7</option>
+            <option value="0.8">0.8</option>
+            <option value="0.9">0.9</option>
+            <option value="1.0">1.0</option>
+            <option value="1.1">1.1</option>
+            <option value="1.2">1.2</option>
+          </select>
+        </div>
+        <div class="control-row">
+          <label class="label" for="ahr-frequency">投资频率</label>
+          <select id="ahr-frequency" class="select">
+            <option value="daily">满足阈值的所有日期</option>
+            <option value="monthly">每月仅一次（无达标则取当月最后一天）</option>
+          </select>
+        </div>
+        <div class="hint">当日 AHR999 ≤ 阈值时进行定投</div>
+      </div>
+      <div class="actions">
+        <button id="run" class="btn-primary">计算并更新</button>
+      </div>
+    </div>
+  </section>
+  <section class="metrics">
+    <div class="grid">
+      <div class="metric card">
+        <div class="metric-label">总投入</div>
+        <div id="m-invested" class="metric-value">-</div>
+      </div>
+      <div class="metric card">
+        <div class="metric-label">期末资产价值</div>
+        <div id="m-value" class="metric-value">-</div>
+      </div>
+      <div class="metric card">
+        <div class="metric-label">收益/回报率</div>
+        <div id="m-profit" class="metric-value">-</div>
+      </div>
+      <div class="metric card">
+        <div class="metric-label">持币数量</div>
+        <div id="m-btc" class="metric-value">-</div>
+      </div>
+      <div class="metric card">
+        <div class="metric-label">买入次数</div>
+        <div id="m-count" class="metric-value">-</div>
+      </div>
+    </div>
+  </section>
+  <section class="chart-section card">
+    <canvas id="chart"></canvas>
+  </section>
+  <footer class="footer">
+    <div class="note">价格数据来源于仓库文件 btc-price 2025 ahr999.csv</div>
+  </footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
